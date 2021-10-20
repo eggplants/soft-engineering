@@ -79,7 +79,7 @@ const char* rank_bmi(float bmi) {
 
 main() {
   float h, w, res;
-  printf("Input your height (m): ");
+  printf("Input your height (cm): ");
   scanf("%f", &h);
   printf("Input your weight (kg): ");
   scanf("%f", &w);
@@ -91,7 +91,7 @@ main() {
 
 #### 出力結果
 
-![_](img/2021-10-20-00-56-38.png)
+![_](img/2021-10-20-11-33-44.png)
 
 ## 【調べものというか、感想】
 

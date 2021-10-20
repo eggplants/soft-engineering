@@ -23,7 +23,7 @@ const char* rank_bmi(float bmi) {
 
 main() {
   float h, w, res;
-  printf("Input your height (m): ");
+  printf("Input your height (cm): ");
   scanf("%f", &h);
   printf("Input your weight (kg): ");
   scanf("%f", &w);
