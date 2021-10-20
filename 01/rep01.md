@@ -89,8 +89,14 @@ main(){
 ### ソースコード
 
 ```clang:fact.c
+#include <stdio.h>
+
 int fact(int n) {
-  if (n == 0) return 0;
+  if (n < 0) {
+    fprintf(stderr, "Error: n must be prositive\n");
+    exit(1);
+  }
+  if (n == 0) return 1;
   int res = 1;
   for (; n > 0; n--) res *= n;
   return res;
@@ -100,14 +106,13 @@ main() {
   int n;
   printf("Please input number: ");
   scanf("%d", &n);
-  int flag = (n > 0 ? 1 : -1);
-  printf("%d\n", flag * fact(abs(n)));
+  printf("%d\n", fact(n));
 }
 ```
 
 ### 実行結果のスクリーンショット
 
-![_](img/2021-10-10-20-21-18.png)
+![_](img/2021-10-20-11-06-12.png)
 
 ### おまけ（解かなくてもいい）
 

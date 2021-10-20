@@ -7,7 +7,7 @@ int fact(int n) {
   }
   if (n == 0) return 1;
   int res = 1;
-  for (; n > 0; n--) res *= n;
+  while (n > 0) res *= n--;
   return res;
 }
 

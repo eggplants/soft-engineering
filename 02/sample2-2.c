@@ -1,5 +1,3 @@
 #include <stdio.h>
 
-int main() {
-  printf("Modified!\n");
-}
+int main() { printf("Modified!\n"); }
