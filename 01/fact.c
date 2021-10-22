@@ -2,7 +2,7 @@
 
 int fact(int n) {
   if (n < 0) {
-    fprintf(stderr, "Error: n must be prositive\n");
+    fprintf(stderr, "Error: n must be positive\n");
     exit(1);
   }
   if (n == 0) return 1;

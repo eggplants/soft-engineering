@@ -28,12 +28,12 @@ printfフォーマット文字列と変数の型は一致させないと異常�
 
 int fact(int n) {
   if (n < 0) {
-    fprintf(stderr, "Error: n must be prositive\n");
+    fprintf(stderr, "Error: n must be positive\n");
     exit(1);
   }
   if (n == 0) return 1;
   int res = 1;
-  for (; n > 0; n--) res *= n;
+  while (n > 0) res *= n--;
   return res;
 }
 
@@ -47,7 +47,7 @@ main() {
 
 #### 出力結果
 
-![_](img/2021-10-20-11-06-12.png)
+![_](img/2021-10-22-11-15-48.png)
 
 ### 【授業内課題３：BMIを計算する関数を作る】
 
@@ -157,7 +157,7 @@ main() {
 ```c
 int fact(int n) {
   if (n < 0) {
-    fprintf(stderr, "Error: n must be prositive\n");
+    fprintf(stderr, "Error: n must be positive\n");
     exit(1);
   }
   if (n == 0) return 1;
@@ -189,7 +189,7 @@ main() {
 
 int fact(int n) {
   if (n < 0) {
-    fprintf(stderr, "Error: n must be prositive\n");
+    fprintf(stderr, "Error: n must be positive\n");
     exit(1);
   }
   ...

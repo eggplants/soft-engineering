@@ -68,7 +68,7 @@ RADとは「Rapid Application Development」の略であり、ユーザを含め
 
 ### ソースコード
 
-```clang:tax.c
+```c
 main(){
   float price;
   printf("Please input price: ");
@@ -88,12 +88,12 @@ main(){
 
 ### ソースコード
 
-```clang:fact.c
+```c
 #include <stdio.h>
 
 int fact(int n) {
   if (n < 0) {
-    fprintf(stderr, "Error: n must be prositive\n");
+    fprintf(stderr, "Error: n must be positive\n");
     exit(1);
   }
   if (n == 0) return 1;
@@ -112,7 +112,7 @@ main() {
 
 ### 実行結果のスクリーンショット
 
-![_](img/2021-10-20-11-06-12.png)
+![_](img/2021-10-22-11-15-48.png)
 
 ### おまけ（解かなくてもいい）
 
@@ -128,7 +128,7 @@ main() {
 
 ### ソースコード
 
-```clang:while.c
+```c
 main() {
   char c;
   while (c != 's') {
@@ -149,7 +149,7 @@ main() {
 そもそもncurseにある`getch`関数で1文字ごとにEnterなしに受け取れば良い。こうすることで複数文字を受け取ってしまうこともなく、2回プロンプトが表示されたりもしない。
 以下のコードでは`getch`の実装をそのまま貼っているが、`ncurse.h`をincludeして用いても良い。(環境に依存するのであまり好みではない)
 
-```clang:while_getch.c
+```c
 #include <termios.h>
 #include <unistd.h>
 // https://stackoverflow.com/a/23035044/12021810
