@@ -67,6 +67,7 @@ void print_char_array(char char_arr[][72], int reverse) {
 }
 
 int is_natural(char *s) {
+  if ("2147483647" < s) return 0;
   if (s[0] == '\0' || (s[0] == '0' && s[1] != '\0')) return 0;
   int i;
   while (s[i] != '\0')
