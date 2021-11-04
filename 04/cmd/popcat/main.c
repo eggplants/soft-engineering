@@ -1,4 +1,6 @@
+#include <errno.h>
 #include <getopt.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -29,7 +31,7 @@ usage: %s [-f] [-t MS] [-h] [-v]\n\
 \n\
 optional arguments:\n\
   -f, --flip            flip cat\n\
-  -t, --time <ms(>=0)>  interval of frames\n\
+  -t, --time <ms>       interval of frames\n\
                         defaults to 200(ms)\n\
   -h, --help            display this help and exit\n\
   -v, --version         output version information and exit\n",
@@ -38,7 +40,7 @@ optional arguments:\n\
 }
 
 void print_version(void) {
-  puts("popcat 0.0.1");
+  puts("popcat 0.1");
   exit(0);
 }
 
@@ -66,8 +68,11 @@ void print_char_array(char char_arr[][72], int reverse) {
   }
 }
 
-int is_natural(char *s) {
-  if ("2147483647" < s) return 0;
+int is_natural(char s[]) {
+  long val = strtol(s, 0, 10);
+  if (val < INT_MIN || val > INT_MAX || (errno == ERANGE && val == LONG_MIN) ||
+      (errno == ERANGE && val == LONG_MAX))
+    return 0;
   if (s[0] == '\0' || (s[0] == '0' && s[1] != '\0')) return 0;
   int i;
   while (s[i] != '\0')
