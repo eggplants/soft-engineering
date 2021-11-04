@@ -59,10 +59,9 @@ void print_char_array(char char_arr[][72], int reverse) {
       printf("\x1b[%dm%s\n", color, char_arr[c]);
     }
   } else {
-    for (int c = 0; c < 35; c++) {
+    for (int c = 34; c >= 0; c--) {
       fflush(stdout);
       printf("\x1b[%dm%s\n", color, char_arr[c]);
-      puts(char_arr[c]);
     }
   }
 }
