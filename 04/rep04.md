@@ -310,10 +310,9 @@ void print_char_array(char char_arr[][72], int reverse) {
       printf("\x1b[%dm%s\n", color, char_arr[c]);
     }
   } else {
-    for (int c = 0; c < 35; c++) {
+    for (int c = 34; c >= 0; c--) {
       fflush(stdout);
       printf("\x1b[%dm%s\n", color, char_arr[c]);
-      puts(char_arr[c]);
     }
   }
 }
@@ -405,8 +404,8 @@ popcat 0.0.1
 
 #### 使い方
 
-コマンドラインから`popcat`と入力する。すると、Pop CatのAAアニメが表示される。またフレーム間隔を`-t`で指定可能。
+コマンドラインから`popcat`と入力する。すると、Pop CatのAAアニメが表示される。フレーム間隔を`-t`で指定可能。`-f`は逆さ表示。
 
 ### 【感想や要望】
 
-コマンドラインを書くのが大変でした。
+CでCLIを書くのは面倒だとわかりました。
