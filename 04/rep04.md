@@ -163,24 +163,250 @@ $ time ({gcc calc_fib_memo.c&&./a.out}&>2)
 
 #### 概要
 
-catコマンドがあるのに、dogコマンドがないのは犬好きにとって不憫だと思うので、ファイル名を渡すと犬がそれを噛むdogコマンドを作った。
+catコマンドがあるのに、popcatコマンドがないのは[Pop Cat](https://knowyourmeme.com/memes/pop-cat)好きにとって不憫だと思うので、Pop Catを端末上に表示するpopcatコマンドを作った。
+
+Note: *おそらくGNU/Linuxでしか動作しません*
 
 #### ソースコード
 
+- `frame.c`
+
 ```c
-#include <stdio.h>
-int main(int argc,char* argv[]){
-    printf("The dog bit the file %s.", argv[1]);
+char FRAME_01[][72] = {
+    "                                                                       ",
+    "                                                                       ",
+    "                                                                       ",
+    "                                              ;@f@                     ",
+    "             @GGt@                          00    C                    ",
+    "            ;     ;ff                     0f  888@                     ",
+    "             CCLLC    Gf       @ff88@@@@@@  00888008f                  ",
+    "          f LLLfffftt    ifiif;           iCC0000G00 0                 ",
+    "          f ff1tffLLfttf       1fLG8@@@@@8CCC000GGG00;@                ",
+    "          G Lf1ttffLLLfttt111tLG08@@@@@@@@@@8CffLCG00 8                ",
+    "          @ GfttttttfLLt1tttfG88808@@@@@@@888GCLLGG00  0               ",
+    "           f LLf111ttfLfffffLfi1tL8@@@80Cf111tC8@@@@80G G              ",
+    "            f CGLttttttffftL008@@@@0L1;,..     .;tC888GC G             ",
+    "             C G0GCf11tft11G8@880L1,              .;tLCCC i            ",
+    "              C G00Cftfti;tG0GCL1,                  ,itLLC @           ",
+    "              ;tGLt1t11;:1LCLLfi                     ,itLL 0           ",
+    "                  i;:::.;tLLft:                      .;1fL 0           ",
+    "                01 ;,,.,1fLfti                   .....:1fL             ",
+    "                 ; ;:..:itfft1.  ...           .....,,i1Lf f           ",
+    "                  t :, .;tffff1:,,,,.....   .....,,,:i1ffff0           ",
+    "                   ; :,:1ffffffti;::,,,.......,,,::;i1ttt f            ",
+    "                   C CftfffLLLLfft1i;;;:::,,::::;;111ttt t             ",
+    "                  C CCCLLLLLLLLLffftt111iiiiiiii1111tff f              ",
+    "                 C 00GLLLLLLLLLLfffffftttttt11111111ff f               ",
+    "                0f00GCCLLLLLLLLfffffffttttt11111tttfLCfG               ",
+    "                C 00CCCCCLLLLLLLLLffffttttttttttttffCC f               ",
+    "               G G0GCCCCCLCCCLLLLLLLLLffftttttttttffCC 0               ",
+    "             @  f00GCCCCCCCCLLLLLLLLLffffffffttttfffLC0                ",
+    "           @@ ,@80GGGGCCCCCCLLLLLLLLLffffffffffffffLLCG 0              ",
+    "          @  @@@8GGCCCCCCCCCCCLLLLLLLLfffffffffffffffCG C              ",
+    "         @@8@@@@8GCCCCCCCCCCCCCCCLLLLLffLLfffffffffffCC G              ",
+    "        ;@ 8@@@@8GCCCCCCCCCCCCCCCLLLLLfffffffffffffffCC C              ",
+    "        @ 8@@@@80CCCCCCCCCCCCCCCCLLLLLLLLffffffffffffL0 @              ",
+    "       0 8@@@@@80GGGGGGGGGGCCCCCCCCCCCCLLLLLLLLLLLLfLL ;               ",
+    "       @ 8@@@8880CCCCCCCCCCCCCCCCCCCCLLLLLLLLLLffffffL;;               "};
+char FRAME_02[][72] = {
+    "                                                                       ",
+    "                                                                       ",
+    "                                                ;                      ",
+    "                @f@                          @CC  0f                   ",
+    "               f    fft                     G   8@  0                  ",
+    "                0CC8    G0          ;@@   @i 0088000 f                 ",
+    "             f LLffffff0  tftffftfG     @@  GG088000G@@                ",
+    "             i ffttfLLfttf          @8G   1LLCG00GG00 C                ",
+    "             t Lt1tfffLLftttfffttffLG8@@@@0CfLGGGCC00 0                ",
+    "             G LLttttttfft11111tLG08@@@@@@@@880GCCC00 8                ",
+    "              0 Lft1111fLfttftfC8@@@@@@@@@@@@0f11LC88 G                ",
+    "               f CCt11tttfLftffL1:::,t8@@@@@@0:.,tG00@ G               ",
+    "                C G0GLt11tttttLGCLftfL8@@@@@@@808@@8C1: ;              ",
+    "                CfCG0Gftff11;;tG88@@@@@@@@0LffG@@@880Lft f             ",
+    "                 f Cti1t11i,,;1LCCLLLCCCGGGLt1fft1tfffLf10;            ",
+    "                  f 1;::::,.;1fLLfttt1t1111iiii;i1111tfff @            ",
+    "                   f i:... .11tLLffffttttttt11t11tt11tfttf             ",
+    "                    ; :,  .:iitLfffffftttttttttt11111ttt f             ",
+    "                      ;,. .,:iffffffftttt111t1111111ttt t              ",
+    "                     f t;..,itffffLfffttt111111111ttfL f               ",
+    "                    0ffCLtttffffLLLffffttttt111ttttfLC@0               ",
+    "                    C GGLLLLLLLfLffffftttttttttttttfLG f               ",
+    "                   G G0CCLLLLLLfffffffttttttttttttffCC f               ",
+    "                  8 GGCCCLLLLLLLLLffffffttttttttttffCC G               ",
+    "                08 80GCCCCLLLLLLLLLLLfffftfffttttttfLCG ;              ",
+    "               @@ 880CCCCCLLLLLLLLLLLfLLfffftttttttffCG C              ",
+    "              @  880GGGCCCLLLLLLLLLLLLffffffffftttfffCC C              ",
+    "             @ 0@@8GGCCCCCCCLLLLLLLLLffffffffffttffffCC t              ",
+    "            @ 8@@@8GCCCCCCCCLCCLLLLLLffffffffffffffffLC8               ",
+    "           f 0@@@88GCCCCCCCCCCCCLLLLLLfffffffffffffffLCG               ",
+    "          @888@@@80CCCCCCCCCCCCLLLLLLLLffffffffttffffLL f              ",
+    "          @ 8@@@880CCCCCCCCCCCCCCCCLLLLLfffffffffffffLL f              ",
+    "         0 88@@888GCCCCCCCCLLCCCLLLLLLLLffffffffffffffL f              ",
+    "         8 8@88888GGCCCCCCCCCCCCLLLLLLLLLLLLLffffffffLL f              ",
+    "         @ 8888880CCCCCCCCCLLLLLLLLLfffffffffttttttttfL ;              "};
+```
+
+- `main.c`
+
+```c
+#include <getopt.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+
+#define RED 31
+#define GREEN 32
+#define YELLOW 33
+#define BLUE 34
+#define MAGENTA 35
+#define CYAN 36
+#define WHITE 37
+
+extern char FRAME_01[][72];
+extern char FRAME_02[][72];
+
+int COLOR[] = {RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE};
+int COLOR_NUM = sizeof(COLOR) / sizeof(int);
+
+int PREV_COLOR = 0;
+
+void print_help(char prog[]) {
+  printf(
+      "\
+usage: %s [-f] [-t MS] [-h] [-v]\n\
+\n\
+*pop* *pop* *pop*\n\
+\n\
+optional arguments:\n\
+  -f, --flip            flip cat\n\
+  -t, --time <ms(>=0)>  interval of frames\n\
+                        defaults to 200(ms)\n\
+  -h, --help            display this help and exit\n\
+  -v, --version         output version information and exit\n",
+      prog);
+  exit(0);
+}
+
+void print_version(void) {
+  puts("popcat 0.0.1");
+  exit(0);
+}
+
+void msleep(int sec) { usleep(sec * 1000); }
+
+void clear_screen() { printf("\033[2J\033[3J\033[H"); }
+
+int sample_color(void) {
+  srand(time(NULL));
+  return COLOR[rand() % COLOR_NUM];
+}
+
+void print_char_array(char char_arr[][72], int reverse) {
+  int color = sample_color();
+  if (reverse == 0) {
+    for (int c = 0; c < 35; c++) {
+      fflush(stdout);
+      printf("\x1b[%dm%s\n", color, char_arr[c]);
+    }
+  } else {
+    for (int c = 0; c < 35; c++) {
+      fflush(stdout);
+      printf("\x1b[%dm%s\n", color, char_arr[c]);
+      puts(char_arr[c]);
+    }
+  }
+}
+
+int is_natural(char *s) {
+  if (s[0] == '\0' || (s[0] == '0' && s[1] != '\0')) return 0;
+  int i;
+  while (s[i] != '\0')
+    if ('0' > s[i] || '9' < s[i++]) return 0;
+  return 1;
+}
+
+void print_frame(int sec, int reverse) {
+  fflush(stdout);
+  print_char_array(FRAME_01, reverse);
+  msleep(sec);
+  clear_screen();
+  fflush(stdout);
+  print_char_array(FRAME_02, reverse);
+  msleep(sec);
+  clear_screen();
+}
+
+int main(int argc, char *argv[]) {
+  struct option longopts[] = {
+      {"flip", no_argument, NULL, 'f'},
+      {"help", no_argument, NULL, 'h'},
+      {"version", no_argument, NULL, 'v'},
+      {"time", required_argument, NULL, 't'},
+      {0, 0, 0, 0},
+  };
+  int opt;
+  int longindex;
+  int flip = 0;
+  int sleep_ms = 200;
+  while ((opt = getopt_long(argc, argv, "fhvt:", longopts, &longindex)) != -1) {
+    switch (opt) {
+      case 'v':
+        print_version();
+        break;
+      case 'h':
+        print_help(argv[0]);
+        break;
+      case 'f':
+        flip = 1;
+        break;
+      case 't':
+        if (is_natural(optarg)) {
+          sleep_ms = atoi(optarg);
+        } else {
+          fprintf(stderr, "%s: '%s' is not natural int. (0>=)\n", argv[0],
+                  optarg);
+          return 1;
+        }
+        break;
+      case '?':
+        return 1;
+      default:
+        fprintf(stderr, "%s: invalid option -- '%c'\n", argv[0], opt);
+        return 1;
+    }
+  }
+  clear_screen();
+  while (1) {
+    print_frame(sleep_ms, flip);
+  }
 }
 ```
 
 #### 実行例
 
+```shellsession
+$ gcc frame.c main.c -o popcat
+$ sudo install -m+x popcat /usr/local/bin
+$ popcat -h
+usage: popcat [-f] [-t MS] [-h] [-v]
+
+*pop* *pop* *pop*
+
+optional arguments:
+  -f, --flip            flip cat
+  -t, --time <ms(>=0)>  interval of frames
+                        defaults to 200(ms)
+  -h, --help            display this help and exit
+  -v, --version         output version information and exit
+$ popcat -v
+popcat 0.0.1
+```
+
 #### 使い方
 
-コマンドラインから
-dog 【噛んでほしいファイル名】
-を入力する。
-すると、犬がそのファイルを噛んだというメッセージが表示される。実際にはメッセージが表示されるだけで、何も起こらない。
+コマンドラインから`popcat`と入力する。すると、Pop CatのAAアニメが表示される。またフレーム間隔を`-t`で指定可能。
 
 ### 【感想や要望】
+
+コマンドラインを書くのが大変でした。
