@@ -165,7 +165,7 @@ $ time ({gcc calc_fib_memo.c&&./a.out}&>2)
 
 catコマンドがあるのに、popcatコマンドがないのは[Pop Cat](https://knowyourmeme.com/memes/pop-cat)好きにとって不憫だと思うので、Pop Catを端末上に表示するpopcatコマンドを作った。
 
-Note: *おそらくGNU/Linuxでしか動作しません*
+Note: *GNU/LinuxとDarwinで動作確認。Windowsではおそらく動かない*
 
 #### ソースコード
 
@@ -249,7 +249,9 @@ char FRAME_02[][72] = {
 - `main.c`
 
 ```c
+#include <errno.h>
 #include <getopt.h>
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -280,7 +282,7 @@ usage: %s [-f] [-t MS] [-h] [-v]\n\
 \n\
 optional arguments:\n\
   -f, --flip            flip cat\n\
-  -t, --time <ms(>=0)>  interval of frames\n\
+  -t, --time <ms>       interval of frames\n\
                         defaults to 200(ms)\n\
   -h, --help            display this help and exit\n\
   -v, --version         output version information and exit\n",
@@ -289,7 +291,7 @@ optional arguments:\n\
 }
 
 void print_version(void) {
-  puts("popcat 0.0.1");
+  puts("popcat 1.0");
   exit(0);
 }
 
@@ -298,7 +300,6 @@ void msleep(int sec) { usleep(sec * 1000); }
 void clear_screen() { printf("\033[2J\033[3J\033[H"); }
 
 int sample_color(void) {
-  srand(time(NULL));
   return COLOR[rand() % COLOR_NUM];
 }
 
@@ -307,7 +308,7 @@ void print_char_array(char char_arr[][72], int reverse) {
   if (reverse == 0) {
     for (int c = 0; c < 35; c++) {
       fflush(stdout);
-      printf("\x1b[%dm%s\n", color, char_arr[c]);
+      printf("\x1b[%dm%s\x1b[0m\n", color, char_arr[c]);
     }
   } else {
     for (int c = 34; c >= 0; c--) {
@@ -317,7 +318,11 @@ void print_char_array(char char_arr[][72], int reverse) {
   }
 }
 
-int is_natural(char *s) {
+int is_natural(char s[]) {
+  long val = strtol(s, 0, 10);
+  if (val < INT_MIN || val > INT_MAX || (errno == ERANGE && val == LONG_MIN) ||
+      (errno == ERANGE && val == LONG_MAX))
+    return 0;
   if (s[0] == '\0' || (s[0] == '0' && s[1] != '\0')) return 0;
   int i;
   while (s[i] != '\0')
@@ -337,6 +342,7 @@ void print_frame(int sec, int reverse) {
 }
 
 int main(int argc, char *argv[]) {
+  srand((unsigned int)time(NULL));
   struct option longopts[] = {
       {"flip", no_argument, NULL, 'f'},
       {"help", no_argument, NULL, 'h'},
@@ -394,12 +400,12 @@ usage: popcat [-f] [-t MS] [-h] [-v]
 
 optional arguments:
   -f, --flip            flip cat
-  -t, --time <ms(>=0)>  interval of frames
+  -t, --time <ms>       interval of frames
                         defaults to 200(ms)
   -h, --help            display this help and exit
   -v, --version         output version information and exit
 $ popcat -v
-popcat 0.0.1
+popcat 1.0
 ```
 
 #### 使い方
@@ -408,4 +414,4 @@ popcat 0.0.1
 
 ### 【感想や要望】
 
-CでCLIを書くのは面倒だとわかりました。
+CでCLIを書くのは面倒だとわかった。また、乱数アルゴリズムや`time`、`getopt`など、標準ライブラリを使用するとどうしてもアーキテクチャに依存した実装になってしまうとわかり、つらい気持ちになった。
