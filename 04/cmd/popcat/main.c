@@ -40,7 +40,7 @@ optional arguments:\n\
 }
 
 void print_version(void) {
-  puts("popcat 0.1");
+  puts("popcat 1.0");
   exit(0);
 }
 
@@ -49,7 +49,6 @@ void msleep(int sec) { usleep(sec * 1000); }
 void clear_screen() { printf("\033[2J\033[3J\033[H"); }
 
 int sample_color(void) {
-  srand(time(NULL));
   return COLOR[rand() % COLOR_NUM];
 }
 
@@ -58,7 +57,7 @@ void print_char_array(char char_arr[][72], int reverse) {
   if (reverse == 0) {
     for (int c = 0; c < 35; c++) {
       fflush(stdout);
-      printf("\x1b[%dm%s\n", color, char_arr[c]);
+      printf("\x1b[%dm%s\x1b[0m\n", color, char_arr[c]);
     }
   } else {
     for (int c = 34; c >= 0; c--) {
@@ -92,6 +91,7 @@ void print_frame(int sec, int reverse) {
 }
 
 int main(int argc, char *argv[]) {
+  srand((unsigned int)time(NULL));
   struct option longopts[] = {
       {"flip", no_argument, NULL, 'f'},
       {"help", no_argument, NULL, 'h'},
