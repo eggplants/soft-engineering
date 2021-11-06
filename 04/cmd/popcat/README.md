@@ -21,13 +21,21 @@ optional arguments:
 ### GNU/Linux
 
 ```bash
-curl -o popcat https://git.io/JPjcs
+curl -Lo popcat https://git.io/JPjcs
 sudo install -m+x popcat /usr/local/bin
 ```
 
 ### Mac
 
 ```bash
-curl -o popcat https://git.io/JPjcw
+curl -Lo popcat https://git.io/JPjcw
 sudo install -m+x popcat /usr/local/bin
 ```
+
+### Android
+
+```bash
+curl -Lo popcat https://git.io/JPjWH
+sudo install -m+x popcat /usr/local/bin
+```
+
