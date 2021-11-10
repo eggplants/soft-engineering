@@ -10,9 +10,7 @@ typedef struct purchase {
   int number;
 } Purchase;
 
-int calc_tax(int price, int tax) {
-  return (int)(price / 100.0 * tax);
-}
+int calc_tax(int price, int tax) { return (int)(price / 100.0 * tax); }
 
 int main() {
   Purchase p[N];
@@ -31,16 +29,10 @@ int main() {
   for (i = 0; i < N;) {
     Purchase j = p[i++];
     int subtotal = j.price * j.number;
-    int tax = calc_tax(subtotal, TAX) ;
-    printf(
-      "`%s' bought %d `%s', ",
-      j.purchaser_name, j.number, j.product_name
-    );
-    printf(
-      "{subtotal => %d, tax => %d, total => %d}\n",
-      subtotal, tax, subtotal + tax
-    );
+    int tax = calc_tax(subtotal, TAX);
+    printf("`%s' bought %d `%s', ", j.purchaser_name, j.number, j.product_name);
+    printf("{subtotal => %d, tax => %d, total => %d}\n", subtotal, tax,
+           subtotal + tax);
   }
   return 0;
 }
-

@@ -1,46 +1,44 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
-#include <fcntl.h>
 
-int kbhit(void)
-{
-    struct termios oldt, newt;
-    int ch;
-    int oldf;
+int kbhit(void) {
+  struct termios oldt, newt;
+  int ch;
+  int oldf;
 
-    tcgetattr(STDIN_FILENO, &oldt);
-    newt = oldt;
-    newt.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
-    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+  tcgetattr(STDIN_FILENO, &oldt);
+  newt = oldt;
+  newt.c_lflag &= ~(ICANON | ECHO);
+  tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+  oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+  fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
 
-    ch = getchar();
+  ch = getchar();
 
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-    fcntl(STDIN_FILENO, F_SETFL, oldf);
+  tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+  fcntl(STDIN_FILENO, F_SETFL, oldf);
 
-    if (ch != EOF) {
-        ungetc(ch, stdin);
-        return 1;
-    }
+  if (ch != EOF) {
+    ungetc(ch, stdin);
+    return 1;
+  }
 
-    return 0;
+  return 0;
 }
 
-int main(void)
-{
-    puts("何かキーを押したら終了します。");
+int main(void) {
+  puts("何かキーを押したら終了します。");
 
-    while (1) {
-        if (kbhit()) {
-            printf("'%c'を押しました。\n", getchar());
-            break;
-        }
-        printf("w");
-        usleep(100000);
+  while (1) {
+    if (kbhit()) {
+      printf("'%c'を押しました。\n", getchar());
+      break;
     }
+    printf("w");
+    usleep(100000);
+  }
 
-    return 0;
+  return 0;
 }

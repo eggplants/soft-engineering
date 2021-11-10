@@ -48,9 +48,7 @@ void msleep(int sec) { usleep(sec * 1000); }
 
 void clear_screen() { printf("\033[2J\033[3J\033[H"); }
 
-int sample_color(void) {
-  return COLOR[rand() % COLOR_NUM];
-}
+int sample_color(void) { return COLOR[rand() % COLOR_NUM]; }
 
 void print_char_array(char char_arr[][72], int reverse) {
   int color = sample_color();

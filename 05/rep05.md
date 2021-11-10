@@ -138,10 +138,99 @@ int main() {
 >リストはサンプルコードのものでも、改良したものでも、自分でゼロから作っても構いません。
 >サンプルを使った場合はswap関数の部分だけ、そうでない場合はプログラム全体を貼ってください。
 
+### ソースコード
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct listnode {
+  struct listnode *next;
+  struct listnode *prev;
+  int data;
+} ListNode;
+
+ListNode listnodes[8];
+
+int data[] = {0, 1, 2, 3, 4, 5, 6, 7};
+
+void show_list(ListNode **node) {
+  ListNode *n = &node[0];
+  while (n != NULL) {
+    printf("%d, ", n->data);
+    n = n->next;
+  }
+  puts("x");
+}
+
+void swap(ListNode *a, ListNode *b) {
+  if (a == b) return;
+  if (b->next == a) {
+    ListNode tmp = *a;
+    *a = *b;
+    *b = tmp;
+  }
+  ListNode *w = a->prev;
+  ListNode *x = a->next;
+  ListNode *y = b->prev;
+  ListNode *z = b->next;
+  if ((a->next == b && b->prev == a) || (a->prev == b && b->next == a)) {
+    a->prev = x;
+    a->next = z;
+    b->prev = w;
+    b->next = y;
+  } else {
+    a->prev = y;
+    a->next = z;
+    b->prev = w;
+    b->next = x;
+  }
+  if (a->prev != NULL) {
+    a->prev->next = a;
+  }
+  if (a->next != NULL) {
+    a->next->prev = a;
+  }
+  if (b->prev != NULL) {
+    b->prev->next = b;
+  }
+  if (b->next != NULL) {
+    b->next->prev = b;
+  }
+}
+
+int main() {
+  int n = sizeof(listnodes) / sizeof(ListNode);
+  for (int i = 0; i < n; i++) {
+    listnodes[i].data = data[i];
+    if (i == 0) {
+      listnodes[i].prev = NULL;
+    } else {
+      listnodes[i].prev = &listnodes[i - 1];
+      listnodes[i - 1].next = &listnodes[i];
+    }
+    listnodes[i].next = NULL;
+  }
+  puts("prev:");
+  show_list(&listnodes);
+  swap(&listnodes[4], &listnodes[5]);
+  puts("next:");
+  show_list(&listnodes);
+}
+```
+
+### スクリーンショット
+
+![_](img/2021-11-11-06-59-20.png)
+
 ## 【発展課題２】リストの要素を破壊的に並び替えるソート関数を作る
 
 >発展課題１で作成したswap関数を用いて、data1の値からリストを破壊的に並び替えるソート関数を実装してみてください。
 >一番簡単なのはバブルソートですが、自分の好きなソートアルゴリズムで実装して大丈夫です。
 >ソートを実際に行う関数のソースコードと、実行結果のスクリーンショットを貼ってください。
 
+実装できず
+
 ## 【感想や要望】
+
+敗北しました。。。

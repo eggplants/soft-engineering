@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
   FILE *fp;
   int c;
-  if(argc!=2){
+  if (argc != 2) {
     printf("Usage: %s <file>\n", argv[0]);
     return 1;
   }
@@ -17,5 +17,6 @@ int main(int argc, char *argv[]) {
   } else {
     printf("File open error!\n");
     return 2;
-  }  return 0;
+  }
+  return 0;
 }
