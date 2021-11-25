@@ -48,7 +48,6 @@ class Elevetor {
   void get_on(Person p1);
   void get_on(Person p1, Person p2);
 };
-;
 
 Elevetor::Elevetor(string n, float mw) {
   name = n;
@@ -79,3 +78,5 @@ void Elevetor::get_on(Person p1, Person p2) {
     cout << "Bring " << p2.get_name() << " to floor " << next_floor << endl;
   }
 };
+
+int main(){ return 0; }
